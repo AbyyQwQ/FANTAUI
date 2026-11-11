@@ -1,0 +1,99 @@
+/* ============================================================
+ * base.css — 设计令牌 & 全局重置
+ * 美术同学主要改这里：颜色、圆角、间距、字体、动画时长
+ * ============================================================ */
+
+:root {
+  /* ---- 颜色（色块占位，替换成正式配色） ---- */
+  --c-bg: #dbdee2;
+  --c-surface: #161b22;
+  --c-surface-2: #1f2630;
+  --c-border: #2a323d7a;
+  --c-text: #fcfcfc;
+  --c-text-dim: #d9ecff;
+  --c-accent: #4c8dff;
+  --c-topbar: #0059df;
+  --c-topbar-2: #4891ff;
+  --c-sidebar: #ffffff00;
+  --c-alert: #ff764c;
+  --c-notice: #ffc46b;
+  --c-news: #479dffe3;
+  --c-bottombar: #121821;
+
+  /* ---- 尺寸 ---- */
+  --topbar-h: 72px;
+  --topbar-w: 800px;
+  --bottombar-h: 44px;
+  --sidebar-w: 240px;
+  /* 隐藏时仍留在屏幕内的宽度（"滑出不完全"） */
+  --sidebar-peek: 72px;
+
+  /* ---- 圆角 / 间距 ---- */
+  --radius: 10px;
+  --gap: 12px;
+  --pad: 16px;
+
+  /* ---- 字号（隐藏时整体缩小） ---- */
+  --font-base: 14px;
+  --font-scale: 1;
+  --font-sm: 12px;
+
+  /* ---- 动画 ---- */
+  --dur: 260ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---- 层级 ---- */
+  --z-topbar: 30;
+  --z-sidebar: 40;
+  --z-bottombar: 30;
+  --z-overlay: 35;
+  --z-toggle: 60;
+  /* 悬浮开关占用底栏右侧，隐藏底栏时自动归零 */
+  --dock-offset: 64px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans SC", sans-serif;
+  font-size: var(--font-base);
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* 色块占位：美术可直接换成真实内容 */
+.block {
+  background: var(--c-surface-2);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-text-dim);
+  font-size: var(--font-sm);
+  min-height: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0ms;
+  }
+}

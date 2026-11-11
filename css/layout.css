@@ -1,0 +1,285 @@
+/* ============================================================
+ * layout.css — 三段式布局骨架（顶栏 / 边栏 / 底栏）
+ *
+ * 结构：
+ *   .app
+ *     .topbar     顶栏（可隐藏）
+ *     .body
+ *       .sidebar  边栏（可滑出，保留 --sidebar-peek 宽度）
+ *       .main     主内容区
+ *     .bottombar  底栏（可隐藏）
+ *
+ * 状态由 <body> 上的 data 属性驱动，JS 只负责切换属性：
+ *   data-topbar="open" | "closed"
+ *   data-sidebar="open" | "closed"
+ *   data-bottombar="open" | "closed"
+ * ============================================================ */
+
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* ---------------- 顶栏 ---------------- */
+
+.topbar {
+  height: var(--topbar-h);
+  width: var(--topbar-w);
+  background: var(--c-topbar);
+  clip-path: polygon(
+                    0 0,
+                    100% 0,
+                    calc(100% - var(--topbar-h)) 100%,
+                    0 100%
+                    );
+  /* border-bottom: 1px solid var(--c-border); */
+  z-index: var(--z-topbar);
+  overflow: hidden;
+  transition:
+    height var(--dur) var(--ease),
+    opacity var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.topbar__left{
+  height: var(--topbar-h);
+  width: var(--topbar-h);
+  /* display: flex; */
+  /* gap: var(--gap); */
+  background: #ff7c40;
+  clip-path: polygon(
+                    0 0,
+                    100% 0,
+                    0 100%
+                    );
+  /* padding: 0 var(--pad); */
+  z-index: var(--z-topbar);
+  overflow: hidden;
+  transition: font-size var(--dur) var(--ease);
+}
+
+
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  height: var(--topbar-h);
+  /* padding: 0 var(--pad); */
+  font-size: calc(var(--font-base) * var(--font-scale));
+  transition: font-size var(--dur) var(--ease);
+}
+
+.topbar__spacer {
+  flex: 1;
+}
+
+body[data-topbar="closed"] .topbar {
+  height: 0;
+  opacity: 0;
+  border-bottom-color: transparent;
+  pointer-events: none;
+}
+
+body[data-bottombar="closed"] .dock-toggles {
+  bottom: calc(var(--pad) + 14px);
+}
+
+/* ---------------- 中部 ---------------- */.body {  position: relative;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ---------------- 边栏 ---------------- */
+
+.sidebar {
+  position: relative;
+  flex: 0 0 var(--sidebar-w);
+  width: var(--sidebar-w);
+  background: var(--c-sidebar);
+  /* border-right: 1px solid var(--c-border); */
+  z-index: var(--z-sidebar);
+  overflow: hidden;
+  transition:
+    margin-left var(--dur) var(--ease),
+    width var(--dur) var(--ease);
+}
+
+.sidebar__inner {
+  width: var(--sidebar-w);
+  height: 100%;
+  /* padding: var(--pad); */
+  display: flex;
+  flex-direction: column;
+  /* gap: var(--gap); */
+  overflow-y: auto;
+  font-size: calc(var(--font-base) * var(--font-scale));
+  transition:
+    font-size var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+
+/* 滑出：向左移走 (宽 - 露出宽度)，仍有 --sidebar-peek 留在视野内 */
+body[data-sidebar="closed"] .sidebar {
+  margin-left: calc(-1 * (var(--sidebar-w) - var(--sidebar-peek)));
+}
+
+/* 收起时文字缩小 */
+/* body[data-sidebar="closed"] {
+  --font-scale: 0.82;
+} */
+
+/* 露出的窄条区域作为再次展开的点击热区 */
+.sidebar__handle {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* width: var(--sidebar-peek); */
+  height: 100%;
+  /* background: var(--c-surface); */
+  /* border-left: 1px solid var(--c-border); */
+  /* color: var(--c-text-dim); */
+  /* align-items: center; */
+  justify-content: center;
+  /* font-size: 11px; */
+  writing-mode: vertical-rl;
+  cursor: pointer;
+}
+
+body[data-sidebar="closed"] .sidebar__handle {
+  display: flex;
+}
+
+/* ---------------- 主内容 ---------------- */
+
+.main {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: auto;
+  padding: var(--pad);
+  font-size: calc(var(--font-base) * var(--font-scale));
+  transition: font-size var(--dur) var(--ease);
+}
+
+.main__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  min-height: 100%;
+}
+
+.main__stack > .block {
+  flex: 1 1 auto;
+}
+
+/* ---------------- 底栏 ---------------- */
+
+.bottombar {
+  height: var(--bottombar-h);
+  background: var(--c-bottombar);
+  border-top: 1px solid var(--c-border);
+  z-index: var(--z-bottombar);
+  overflow: hidden;
+  transition:
+    height var(--dur) var(--ease),
+    opacity var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.bottombar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  height: var(--bottombar-h);
+  padding: 0 var(--pad);
+  font-size: calc(var(--font-base) * var(--font-scale));
+  transition: font-size var(--dur) var(--ease);
+}
+
+body[data-bottombar="closed"] .bottombar {
+  height: 0;
+  opacity: 0;
+  border-top-color: transparent;
+  pointer-events: none;
+}
+
+body[data-bottombar="closed"] {
+  --dock-offset: 0px;
+}
+
+/* ---------------- 悬浮开关（常驻，保证任何状态下都能点开） ---------------- */
+
+.dock-toggles {
+  position: fixed;
+  right: var(--pad);
+  bottom: calc(var(--pad) + var(--dock-offset) + 14px);
+  z-index: var(--z-toggle);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: bottom var(--dur) var(--ease);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.dock-toggles button {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--c-text-dim);
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.dock-toggles button[aria-pressed="true"] {
+  background: var(--c-accent);
+  color: #fff;
+}
+
+/* ---------------- 收起的栏位：顶部/底部露出细条，点一下恢复 ---------------- */
+
+.reveal {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 5px;
+  z-index: var(--z-toggle);
+  background: var(--c-border);
+  padding: 0;
+  transition: background var(--dur) var(--ease);
+}
+
+.reveal:hover {
+  background: var(--c-accent);
+}
+
+.reveal--top {
+  top: 0;
+}
+
+.reveal--bottom {
+  bottom: 0;
+}
+
+body[data-topbar="closed"] .reveal--top,
+body[data-bottombar="closed"] .reveal--bottom {
+  display: block;
+}
+
+/* ---------------- 遮罩（预留：窄屏叠加模式用） ---------------- */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background: rgb(0 0 0 / 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease);
+}
