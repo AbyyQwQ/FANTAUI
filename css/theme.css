@@ -4,25 +4,40 @@
  * ============================================================ */
 
 .topbar__logo {
-  padding: 12px;
+  /* padding: 12px; */
   font-weight: 700;
   letter-spacing: 0.06em;
 }
 
 .logo-btn {
+  flex: 0 0 auto;
   height: var(--topbar-h);
-  /* width: var(--topbar-h); */
+  /* 72 斜边 + 内容 + 72 斜边，再接上导航首项的 36 */
+  width: calc(var(--topbar-h) + 144px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-right: 36px;
-  /* padding: 0 var(--pad); */
-  z-index: var(--z-topbar);
+  /* 两侧各留 72px 斜边，左侧的斜边正好吃掉 .topbar__left 的直角，形成一条连续斜边 */
+  padding: 0 72px;
+  margin-left: calc(-1 * 73px);
+  margin-right: -36px;
+  background: var(--c-topbar);
+  clip-path: polygon(
+                    72px 0,
+                    100% 0,
+                    calc(100% - 72px) 100%,
+                    0 100%
+                    );
+
+  z-index: 2;
   overflow: hidden;
   transition: font-size var(--dur) var(--ease);
 }
 
-
+.logo-btn:hover {
+  background: var(--c-topbar-2);
+  color: var(--c-text);
+}
 
 .topbar__nav {
   display: flex;
@@ -30,26 +45,36 @@
 }
 
 .topbar__nav a {
-  height: 72px;
+  height: var(--topbar-h);
   width: 144px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border: 10px solid transparent; */
+  background: var(--c-topbar);
   color: var(--c-text-dim);
   text-decoration: none;
+  /* 外侧留 72px 斜边，用负 margin 抵消一半，相邻项才能严丝合缝地嵌住 */
   margin-left: -36px;
   margin-right: -36px;
-  /* padding: 6px 10px; */
-  /* border-radius: 8px; */
-    clip-path: polygon(
+  clip-path: polygon(
                     72px 0,
                     100% 0,
                     calc(100% - 72px) 100%,
                     0 100%
                     );
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease), translate var(--dur) var(--ease);
+}
 
-  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+.topbar__nav a:last-child {
+  margin-right: 0;
+  /* 右端收一个斜角：右上保持直角，右下往左收 72px */
+  clip-path: polygon(
+                    72px 0,
+                    100% 0,
+                    calc(100% - 72px) 100%,
+                    0 100%
+                    );
 }
 
 .topbar__nav a[aria-current="page"],
@@ -103,7 +128,8 @@
   clip-path: polygon(
                     0 0,
                     100% 0,
-                    calc(100% - 48px) 100%,
+                    100% 50%,
+                    calc(100% - 24px) 100%,
                     0 100%
                     );
   background: var(--c-news);
@@ -124,7 +150,8 @@
   clip-path: polygon(
                     0 0,
                     100% 0,
-                    calc(100% - 48px) 100%,
+                    100% 50%,
+                    calc(100% - 24px) 100%,
                     0 100%
                     );
   background: var(--c-notice);
@@ -144,7 +171,8 @@
   clip-path: polygon(
                     0 0,
                     100% 0,
-                    calc(100% - 48px) 100%,
+                    100% 50%,
+                    calc(100% - 24px) 100%,
                     0 100%
                     );
 

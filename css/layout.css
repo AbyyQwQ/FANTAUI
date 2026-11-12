@@ -25,69 +25,100 @@
 /* ---------------- 顶栏 ---------------- */
 
 .topbar {
+  /* 只负责排版：宽度跟随内容，不做裁剪、不画背景 */
+  width: max-content;
+  max-width: 100%;
   height: var(--topbar-h);
-  width: var(--topbar-w);
-  background: var(--c-topbar);
-  clip-path: polygon(
-                    0 0,
-                    100% 0,
-                    calc(100% - var(--topbar-h)) 100%,
-                    0 100%
-                    );
-  /* border-bottom: 1px solid var(--c-border); */
+  display: flex;
+  align-items: stretch;
   z-index: var(--z-topbar);
-  overflow: hidden;
-  transition:
-    height var(--dur) var(--ease),
-    opacity var(--dur) var(--ease),
-    border-color var(--dur) var(--ease);
+  /* 导航收缩时会移出顶栏范围，这里不能裁 */
+  overflow: visible;
 }
 
-.topbar__left{
+.topbar__left {
   height: var(--topbar-h);
   width: var(--topbar-h);
-  /* display: flex; */
-  /* gap: var(--gap); */
+  flex: 0 0 var(--topbar-h);
   background: #ff7c40;
   clip-path: polygon(
                     0 0,
                     100% 0,
                     0 100%
                     );
-  /* padding: 0 var(--pad); */
-  z-index: var(--z-topbar);
   overflow: hidden;
-  transition: font-size var(--dur) var(--ease);
+  /* 插角始终在最上层（比 logo 还高） */
+  position: relative;
+  z-index: 3;
 }
-
-
 
 .topbar__inner {
   display: flex;
   align-items: center;
   gap: var(--gap);
   height: var(--topbar-h);
-  /* padding: 0 var(--pad); */
   font-size: calc(var(--font-base) * var(--font-scale));
   transition: font-size var(--dur) var(--ease);
+}
+
+.topbar__nav {
+  display: flex;
+  flex: 0 0 auto;
+  height: var(--topbar-h);
+  /* 第 1 步作用在 nav 自身；第 2 步作用在每一项上 */
+  z-index: 0;
+  transition: translate var(--dur) var(--ease) var(--step-1-delay);
+}
+
+/* 第 1 步：nav 左移自身宽度的 2/3，顶栏宽度不变 */
+body[data-topbar="closed"] .topbar__nav {
+  translate: -66.667% 0;
+}
+
+/* 第 2 步：每一项沿 45° 右上走 2/3 高度（72 × 2/3 = 48px） */
+body[data-topbar="closed"] .topbar__nav a {
+  translate: calc(var(--topbar-h) * 2 / 3) calc(var(--topbar-h) * -2 / 3);
+}
+
+/* 只声明 translate，颜色过渡留给 theme.css；延迟单独写，收起时等第 1 步走完 */
+body[data-topbar="closed"] .topbar__nav a {
+  transition-property: background, color, translate;
+  transition-duration: var(--dur);
+  transition-timing-function: var(--ease);
+  transition-delay: 0s, 0s, var(--step-2-delay);
+}
+
+/* 展开：先让 45° 那步落回，再右移 */
+body:not([data-topbar="closed"]) .topbar__nav {
+  transition-delay: var(--step-2-delay);
+}
+
+body:not([data-topbar="closed"]) .topbar__nav a {
+  transition-delay: var(--step-1-delay);
+}
+
+/* 顶栏本身不动；收起后整条不响应点击，插角与 logo 仍可点（用于展开） */
+body[data-topbar="closed"] .topbar {
+  pointer-events: none;
+}
+
+body[data-topbar="closed"] .topbar__left,
+body[data-topbar="closed"] .logo-btn {
+  pointer-events: auto;
 }
 
 .topbar__spacer {
   flex: 1;
 }
 
-body[data-topbar="closed"] .topbar {
-  height: 0;
-  opacity: 0;
-  border-bottom-color: transparent;
-  pointer-events: none;
-}
-
 body[data-bottombar="closed"] .dock-toggles {
-  bottom: calc(var(--pad) + 14px);
+  height: calc(var(--pad) + 14px);
 }
 
-/* ---------------- 中部 ---------------- */.body {  position: relative;
+/* ---------------- 中部 ---------------- */
+
+.body {
+  position: relative;
   display: flex;
   min-height: 0;
   overflow: hidden;
@@ -116,10 +147,17 @@ body[data-bottombar="closed"] .dock-toggles {
   flex-direction: column;
   /* gap: var(--gap); */
   overflow-y: auto;
+  /* 隐藏侧栏滚动条（内容仍可滚动） */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   font-size: calc(var(--font-base) * var(--font-scale));
   transition:
     font-size var(--dur) var(--ease),
     opacity var(--dur) var(--ease);
+}
+
+.sidebar__inner::-webkit-scrollbar {
+  display: none;
 }
 
 /* 滑出：向左移走 (宽 - 露出宽度)，仍有 --sidebar-peek 留在视野内 */

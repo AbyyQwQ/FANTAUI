@@ -23,6 +23,7 @@
   /* ---- 尺寸 ---- */
   --topbar-h: 72px;
   --topbar-w: 800px;
+  --topbar-bw: 360px;
   --bottombar-h: 44px;
   --sidebar-w: 240px;
   /* 隐藏时仍留在屏幕内的宽度（"滑出不完全"） */
@@ -40,6 +41,9 @@
 
   /* ---- 动画 ---- */
   --dur: 260ms;
+  /* 第 1 步走完后第 2 步才开始，两步严格不重叠 */
+  --step-1-delay: 0ms;
+  --step-2-delay: var(--dur);
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* ---- 层级 ---- */
@@ -95,5 +99,7 @@ button {
 @media (prefers-reduced-motion: reduce) {
   :root {
     --dur: 0ms;
+    --step-1-delay: 0ms;
+    --step-2-delay: 0ms;
   }
 }
