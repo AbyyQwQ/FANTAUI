@@ -3,24 +3,24 @@
  * ============================================================ */
 
 /* 较窄的横屏：边栏默认收起，露出宽度略减 */
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
   :root {
     --sidebar-peek: 24px;
     --topbar-h: 48px;
     --bottombar-h: 38px;
     --font-base: 13px;
   }
-}
+} */
 
 /* 超矮横屏（横置手机）：压缩各栏高度 */
-/* @media (max-height: 500px) {
-  :root {
+@media (max-height: 500px) { 
+  /* :root {
     --topbar-h: 44px;
     --bottombar-h: 34px;
     --font-base: 12px;
     --pad: 10px;
     --gap: 8px;
-  } */
+  } */ */
 
   .hero-block {
     min-height: 100px;

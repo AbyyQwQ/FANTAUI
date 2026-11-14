@@ -1,6 +1,6 @@
 /* ============================================================
+ * 负责与“空间”相关
  * layout.css — 三段式布局骨架（顶栏 / 边栏 / 底栏）
- *
  * 结构：
  *   .app
  *     .topbar     顶栏（可隐藏）
@@ -17,6 +17,7 @@
 
 .app {
   display: grid;
+
   grid-template-rows: auto 1fr auto;
   height: 100dvh;
   overflow: hidden;
@@ -30,27 +31,41 @@
   max-width: 100%;
   height: var(--topbar-h);
   display: flex;
+  position: relative;
   align-items: stretch;
   z-index: var(--z-topbar);
   /* 导航收缩时会移出顶栏范围，这里不能裁 */
   overflow: visible;
 }
 
-.topbar__left {
+.icon-btn {
   height: var(--topbar-h);
   width: var(--topbar-h);
   flex: 0 0 var(--topbar-h);
-  background: #ff7c40;
-  clip-path: polygon(
-                    0 0,
-                    100% 0,
-                    0 100%
-                    );
   overflow: hidden;
   /* 插角始终在最上层（比 logo 还高） */
   position: relative;
   z-index: 3;
 }
+
+.logo-btn {
+  flex: 0 0 auto;
+  height: var(--topbar-h);
+  /* 72 斜边 + 内容 + 72 斜边，再接上导航首项的 36 */
+  width: calc(var(--topbar-h) + 144px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 两侧各留 72px 斜边，左侧的斜边正好吃掉 .topbar__left 的直角，形成一条连续斜边 */
+  padding: 0 72px;
+  margin-left: calc(-1 * 73px);
+  margin-right: -36px;
+  z-index: 2;
+  overflow: hidden;
+  transition: font-size var(--dur) var(--ease);
+}
+
+
 
 .topbar__inner {
   display: flex;
@@ -102,7 +117,9 @@ body[data-topbar="closed"] .topbar {
   pointer-events: none;
 }
 
-body[data-topbar="closed"] .topbar__left,
+body[data-topbar="closed"] .icon-btn {
+  pointer-events: auto;
+}
 body[data-topbar="closed"] .logo-btn {
   pointer-events: auto;
 }
@@ -159,6 +176,13 @@ body[data-bottombar="closed"] .dock-toggles {
 .sidebar__inner::-webkit-scrollbar {
   display: none;
 }
+
+.sidebar__alert {
+  width: 100%;
+  height: 48px;
+  position: relative;
+}
+
 
 /* 滑出：向左移走 (宽 - 露出宽度)，仍有 --sidebar-peek 留在视野内 */
 body[data-sidebar="closed"] .sidebar {

@@ -7,7 +7,7 @@
   /* ---- 颜色（色块占位，替换成正式配色） ---- */
   --c-bg: #dbdee2;
   --c-surface: #161b22;
-  --c-surface-2: #1f2630;
+  --c-surface-2: #b6b6b6;
   --c-border: #2a323d7a;
   --c-text: #fcfcfc;
   --c-text-dim: #d9ecff;
@@ -15,8 +15,9 @@
   --c-topbar: #0059df;
   --c-topbar-2: #4891ff;
   --c-sidebar: #ffffff00;
-  --c-alert: #ff764c;
-  --c-notice: #ffc46b;
+  --c-alert: #ff7433;
+  --c-alert-2: #ffb13b;
+  --c-notice: #ffb13b;
   --c-news: #479dffe3;
   --c-bottombar: #121821;
 

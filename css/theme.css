@@ -1,27 +1,20 @@
 /* ============================================================
  * theme.css — 内容区视觉（美术主要在这里做色块）
- * 所有类名只负责“长什么样”，不负责布局骨架
+ * 所有类名只负责“长什么样”，负责与“空间”不相关
  * ============================================================ */
 
-.topbar__logo {
-  /* padding: 12px; */
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
 
-.logo-btn {
-  flex: 0 0 auto;
-  height: var(--topbar-h);
-  /* 72 斜边 + 内容 + 72 斜边，再接上导航首项的 36 */
-  width: calc(var(--topbar-h) + 144px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* 两侧各留 72px 斜边，左侧的斜边正好吃掉 .topbar__left 的直角，形成一条连续斜边 */
-  padding: 0 72px;
-  margin-left: calc(-1 * 73px);
-  margin-right: -36px;
-  background: var(--c-topbar);
+/* .topbar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+
+  /* box-shadow: inset 0px -10px 20px -10px rgb(255 255 255 / 0.4) ; */
+  /* background: linear-gradient(to top, 
+            rgb(255 255 255 / 0.4) 0%, rgb(255 255 255 / 0) 80%);
+
   clip-path: polygon(
                     72px 0,
                     100% 0,
@@ -29,10 +22,63 @@
                     0 100%
                     );
 
-  z-index: 2;
-  overflow: hidden;
-  transition: font-size var(--dur) var(--ease);
+} */ 
+
+
+.topbar__logo {
+  /* padding: 12px; */
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
+
+.icon-btn {
+  clip-path: polygon(
+                    0 0,
+                    100% 0,
+                    0 100%
+                    );
+  overflow: hidden;
+  transition: background var(--dur) var(--ease);
+
+}
+
+
+.logo-btn {
+  flex: 0 0 auto;
+  background: var(--c-topbar);
+  clip-path: polygon(
+                    72px 0,
+                    100% 0,
+                    calc(100% - 72px) 100%,
+                    0 100%
+                    );
+                  
+
+  transition: background var(--dur) var(--ease);
+  
+}
+
+
+.logo-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+
+
+  background: linear-gradient(to top, 
+            rgb(255 255 255 / 0.4) 0%, rgb(255 255 255 / 0) 80%);
+
+  clip-path: polygon(
+                    72px 0,
+                    100% 0,
+                    calc(100% - 72px) 100%,
+                    0 100%
+                    );
+
+}
+
 
 .logo-btn:hover {
   background: var(--c-topbar-2);
@@ -43,6 +89,29 @@
   display: flex;
   /* gap: -24px; */
 }
+
+/* 怎么做可开关的主题？ */
+.topbar__nav a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+
+
+  background: linear-gradient(to top, 
+            rgba(255, 255, 255, 0.4) 0%, rgb(255 255 255 / 0) 80%);
+
+  clip-path: polygon(
+                    72px 0,
+                    100% 0,
+                    calc(100% - 72px) 100%,
+                    0 100%
+                    );
+
+}
+
+
 
 .topbar__nav a {
   height: var(--topbar-h);
@@ -84,21 +153,24 @@
 }
 
 .icon-btn {
-  width: 48px;
-  height: 48px;
-  /* padding-left: 10px; */
+  padding: 10px;
   /* background: var(--c-surface-2); */
   /* border-radius: 8px; */
   display: grid;
-  place-items: center;
+  display: flex;
+  /* place-items: center; */
+  background: #ff7c40;
   color: var(--c-text);
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
 .icon-btn:hover {
-  /* background: var(--c-surface-2); */
+  background: var(--c-surface-2);
   color: var(--c-text);
 }
+
+
+
 
 /* ---------------- 边栏内容 ---------------- */
 
@@ -106,24 +178,26 @@
   font-size: var(--font-sm);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--c-text-dim);
+  padding: 0 12px;
+  color: var(--c-text);
   user-select: none;
 }
 
 .sidebar__list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  /* gap: 8px; */
   list-style: none;
-  margin: 4px;
+  margin: 0;
   padding: 0;
 }
 
-.sidels__news {
+.sidebar__news {
   width: 76%;
   height: 48px;
   display: block;
   padding: 9px 12px;
+  margin: 4px 0;
   /* border-radius: 8px; */
   clip-path: polygon(
                     0 0,
@@ -133,6 +207,7 @@
                     0 100%
                     );
   background: var(--c-news);
+  color: var(--c-text);
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
@@ -141,11 +216,12 @@
 }
 
 
-.sidels__notice {
+.sidebar__notice {
   width: 76%;
   height: 48px;
   display: block;
   padding: 9px 12px;
+  margin: 4px 0;
   /* border-radius: 8px; */
   clip-path: polygon(
                     0 0,
@@ -155,6 +231,7 @@
                     0 100%
                     );
   background: var(--c-notice);
+  color: var(--c-text);
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
@@ -162,11 +239,10 @@
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
-.sidels__alert {
-  width: 100%;
-  height: 48px;
+.sidebar__alert {
   display: block;
   padding: 9px 12px;
+  margin: 4px 0;
   /* border-radius: 8px; */
   clip-path: polygon(
                     0 0,
@@ -177,7 +253,42 @@
                     );
 
   background: var(--c-alert);
+  color: var(--c-text);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
   font-weight: 600;
+}
+.sidebar__alert::before,
+  .sidebar__alert::after {
+  content: "";
+  position:absolute;
+  /* inset: 0; */
+  /* z-index: 6; */
+  bottom: 0px;
+  height: 10px;
+  width: 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='10'%3E%3Cpolygon points='5,0 15,0 10,10 0,10' fill='%23f60'/%3E%3C/svg%3E");
+  mask-repeat: repeat-x;
+  mask-size: 40px 10px;
+  background-color: var(--c-alert-2);
+  
+  display: inline-block;
+  animation: scroll 4s linear infinite;
+  /* content: "!"; */
+
+}
+.sidebar__alert::before {
+  left: 100%;
+  /* animation-delay: 0.3s; */
+}
+.sidebar__alert::after {
+  left: 0;
+  /* animation-delay: 0.6s; */
+}
+@keyframes scroll {
+   to{ transform: translateX(-100%);}
+  
 }
 
 .sidebar__list a:hover,
