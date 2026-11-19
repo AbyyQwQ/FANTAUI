@@ -1,5 +1,5 @@
 /* ============================================================
- * 负责与“空间”相关
+ * 负责与“空间位置”相关的属性（布局、尺寸、位置、层级、滚动等），不负责“长什么样”
  * layout.css — 三段式布局骨架（顶栏 / 边栏 / 底栏）
  * 结构：
  *   .app
@@ -17,10 +17,110 @@
 
 .app {
   display: grid;
-
+  position: relative;
+  z-index: 1;
   grid-template-rows: auto 1fr auto;
   height: 100dvh;
   overflow: hidden;
+  pointer-events: none;
+}
+
+/* The spatial world sits under the fixed application UI. */
+.space-plane {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--c-bg);
+  background-image: radial-gradient(rgb(48 67 83 / 0.18) 1px, transparent 1.5px);
+  background-size: var(--space-grid-size, 36px) var(--space-grid-size, 36px);
+  background-position: var(--space-grid-x, 0px) var(--space-grid-y, 0px);
+  cursor: default;
+  touch-action: none;
+}
+
+.space-plane__world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+.space-plane__world > .clue-card {
+  position: absolute;
+  pointer-events: auto;
+}
+
+.space-effect {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100dvh;
+  pointer-events: none;
+}
+
+.space-status {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 101;
+  max-width: calc(100vw - 32px);
+  padding: 8px 12px;
+  border: 1px solid rgb(70 70 70 / 0.3);
+  background: rgb(235 235 235 / 0.94);
+  color: #333;
+  font-size: 13px;
+  text-align: center;
+  transform: translate(-50%, 12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.space-status.is-visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.space-toolbar {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: var(--z-toggle);
+}
+
+/*
+body.is-space-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+body.is-clue-card-dragging .space-plane {
+  cursor: grabbing;
+}
+
+.body {
+  cursor: grab;
+}
+
+body.is-space-dragging .body {
+  cursor: grabbing;
+}
+*/
+
+[data-fixed-ui] {
+  pointer-events: auto;
+  cursor: auto;
+}
+
+body[data-space-mode="active"] .app {
+  pointer-events: none;
 }
 
 /* ---------------- 顶栏 ---------------- */
@@ -84,6 +184,21 @@
   z-index: 0;
   transition: translate var(--dur) var(--ease) var(--step-1-delay);
 }
+
+
+.topbar__nav a {
+  height: var(--topbar-h);
+  width: 144px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -36px;
+  margin-right: -36px;
+
+}
+
+
 
 /* 第 1 步：nav 左移自身宽度的 2/3，顶栏宽度不变 */
 body[data-topbar="closed"] .topbar__nav {
@@ -164,9 +279,9 @@ body[data-bottombar="closed"] .dock-toggles {
   flex-direction: column;
   /* gap: var(--gap); */
   overflow-y: auto;
-  /* 隐藏侧栏滚动条（内容仍可滚动） */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  /* 滚动条完全透明：看不见，但占位仍在，滚轮/拖动都不受影响 */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
   font-size: calc(var(--font-base) * var(--font-scale));
   transition:
     font-size var(--dur) var(--ease),
@@ -174,7 +289,12 @@ body[data-bottombar="closed"] .dock-toggles {
 }
 
 .sidebar__inner::-webkit-scrollbar {
-  display: none;
+  width: 8px;
+}
+
+.sidebar__inner::-webkit-scrollbar-track,
+.sidebar__inner::-webkit-scrollbar-thumb {
+  background: transparent;
 }
 
 .sidebar__alert {

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">新家客厅示意图</title>
+  <desc id="desc">浅色客厅、窗户和搬家纸箱的插画。</desc>
+  <rect width="640" height="360" fill="#e9f1f5"/>
+  <rect y="235" width="640" height="125" fill="#c6a889"/>
+  <rect x="52" y="46" width="235" height="152" rx="8" fill="#b9dbe8"/>
+  <path d="M169 46v152M52 122h235" stroke="#f8fbfc" stroke-width="12"/>
+  <path d="M0 235h640" stroke="#9e8067" stroke-width="5"/>
+  <rect x="350" y="178" width="220" height="88" rx="18" fill="#c7d0cf"/>
+  <rect x="366" y="155" width="89" height="50" rx="16" fill="#d7dfdc"/>
+  <rect x="465" y="155" width="88" height="50" rx="16" fill="#d7dfdc"/>
+  <path d="M378 266v35M540 266v35" stroke="#765b47" stroke-width="9"/>
+  <rect x="102" y="258" width="92" height="65" rx="4" fill="#d49855"/>
+  <path d="M102 279h92M148 258v65" stroke="#f2d2a3" stroke-width="4"/>
+  <rect x="207" y="276" width="65" height="47" rx="3" fill="#c98247"/>
+  <path d="M207 293h65M239 276v47" stroke="#f2d2a3" stroke-width="4"/>
+  <circle cx="592" cy="68" r="23" fill="#f3cb78"/>
+</svg>

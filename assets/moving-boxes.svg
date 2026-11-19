@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">搬家纸箱示意图</title>
+  <desc id="desc">贴有易碎标签和房间标记的搬家纸箱。</desc>
+  <rect width="640" height="360" fill="#eef2f4"/>
+  <path d="M0 285h640" stroke="#d5dde0" stroke-width="4"/>
+  <path d="m105 151 133-50 128 50v138H105z" fill="#c58a51"/>
+  <path d="m105 151 132 48 129-48M237 199v90" fill="none" stroke="#8f6039" stroke-width="6"/>
+  <path d="m237 101 69 50-69 48-67-48z" fill="#e1ae70"/>
+  <path d="m351 207 90-36 91 36v83H351z" fill="#d59b5e"/>
+  <path d="m351 207 90 34 91-34m-91 34v49" fill="none" stroke="#96683f" stroke-width="5"/>
+  <rect x="140" y="222" width="82" height="39" rx="4" fill="#f8e7c9"/>
+  <text x="181" y="248" text-anchor="middle" fill="#68452b" font-family="sans-serif" font-size="17">厨房</text>
+  <rect x="381" y="218" width="61" height="39" rx="4" fill="#fff2d6"/>
+  <path d="M411 225v18m-10-10 10-10 10 10" fill="none" stroke="#d57941" stroke-width="4"/>
+  <text x="470" y="244" fill="#68452b" font-family="sans-serif" font-size="17">易碎</text>
+  <circle cx="541" cy="78" r="25" fill="#f1cd7b"/>
+</svg>

@@ -1,8 +1,16 @@
 /* ============================================================
  * theme.css — 内容区视觉（美术主要在这里做色块）
- * 所有类名只负责“长什么样”，负责与“空间”不相关
+ * 所有类名只负责“长什么样”，负责与“空间位置”不相关的属性
  * ============================================================ */
 
+
+@font-face {
+  font-family: 'I.MingVarCP';
+  src: url(../fonts/I.MingVarCP-8.10.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* .topbar::after {
   content: "";
@@ -45,6 +53,9 @@
 
 .logo-btn {
   flex: 0 0 auto;
+
+  font-size: 20px;
+  font-weight: 500;
   background: var(--c-topbar);
   clip-path: polygon(
                     72px 0,
@@ -114,18 +125,13 @@
 
 
 .topbar__nav a {
-  height: var(--topbar-h);
-  width: 144px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-family: "I.MingVarCP", "I.MingVarCP-8.10", system-ui, -apple-system, "Segoe UI", "Noto Sans SC", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
   background: var(--c-topbar);
   color: var(--c-text-dim);
   text-decoration: none;
   /* 外侧留 72px 斜边，用负 margin 抵消一半，相邻项才能严丝合缝地嵌住 */
-  margin-left: -36px;
-  margin-right: -36px;
   clip-path: polygon(
                     72px 0,
                     100% 0,
@@ -356,4 +362,392 @@
   color: var(--c-text-dim);
   font-size: var(--font-sm);
   white-space: nowrap;
+}
+
+/* ---------------- 循环线索墙 ---------------- */
+
+.clue-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  overflow: hidden;
+  border: 1px solid rgb(54 77 94 / 0.18);
+  border-top: 3px solid var(--c-accent);
+  background: rgb(255 255 255 / 0.96);
+  color: #233242;
+  font-size: 14px;
+  box-shadow: 0 8px 24px rgb(34 51 67 / 0.14);
+  cursor: default;
+  user-select: text;
+  touch-action: none;
+}
+
+.clue-card:hover {
+  box-shadow: 0 12px 30px rgb(34 51 67 / 0.22);
+}
+
+/*
+body.is-clue-card-dragging .clue-card {
+  cursor: grabbing;
+}
+*/
+
+.clue-card--note {
+  border-top-color: #df9a43;
+}
+
+.clue-card--image {
+  border-top-color: #4f9a91;
+}
+
+.clue-card--file {
+  border-top-color: #4c8dff;
+}
+
+.clue-card--search {
+  border-top-color: #a17bc4;
+}
+
+.clue-card__meta,
+.clue-card__source,
+.clue-card__file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.clue-card__kind,
+.clue-card__demo,
+.clue-card__score {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.clue-card__kind {
+  background: #eaf1f5;
+  color: #496273;
+}
+
+.clue-card__demo {
+  background: #fff3df;
+  color: #925b17;
+}
+
+.clue-card__title {
+  margin: 0;
+  color: #1d2c3a;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 650;
+}
+
+.clue-card__description {
+  margin: 0;
+  color: #526170;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.clue-card__image {
+  display: block;
+  width: 100%;
+  min-height: 110px;
+  flex: 1 1 auto;
+  object-fit: cover;
+  border-radius: 5px;
+  background: #eef2f4;
+}
+
+.clue-card__file {
+  justify-content: flex-start;
+  min-width: 0;
+  padding: 8px 10px;
+  background: #f0f4f7;
+  color: #31485b;
+  text-decoration: none;
+}
+
+.clue-card__file:hover {
+  background: #e3edf5;
+  color: #1a5e9f;
+}
+
+.clue-card__file-name {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clue-card__file-size {
+  flex: 0 0 auto;
+  color: #72808b;
+  font-size: 11px;
+}
+
+.clue-card__source {
+  margin-top: auto;
+  min-width: 0;
+  color: #75828c;
+  font-size: 10px;
+}
+
+.clue-card__scores {
+  display: flex;
+  gap: 5px;
+}
+
+.clue-card__score {
+  background: #eef3f8;
+  color: #4c6173;
+  font-variant-numeric: tabular-nums;
+}
+
+.space-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid rgb(54 77 94 / 0.22);
+  background: rgb(255 255 255 / 0.94);
+  box-shadow: 0 5px 18px rgb(34 51 67 / 0.12);
+}
+
+.space-toolbar__hint {
+  padding: 0 8px;
+  color: #657482;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.space-toolbar button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #34495a;
+  font-size: 18px;
+}
+
+.space-toolbar button:hover {
+  background: #e8f1f8;
+  color: #125da0;
+}
+
+.space-toolbar output {
+  min-width: 48px;
+  color: #435463;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+@media (max-width: 680px) {
+  .space-toolbar {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .space-toolbar__hint {
+    display: none;
+  }
+}
+
+.space-settings {
+  width: min(620px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: #233242;
+}
+
+.space-settings::backdrop {
+  background: rgb(24 37 50 / 0.46);
+  backdrop-filter: blur(5px);
+}
+
+.space-settings__content {
+  display: flex;
+  max-height: calc(100dvh - 40px);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(55 82 104 / 0.28);
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 0.98), rgb(233 240 246 / 0.98));
+  box-shadow: 0 24px 80px rgb(18 37 55 / 0.28);
+}
+
+.space-settings__header,
+.space-settings__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.space-settings__header {
+  border-bottom: 1px solid rgb(55 82 104 / 0.14);
+}
+
+.space-settings__eyebrow {
+  color: #497da2;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.space-settings__header h2 {
+  margin: 5px 0 3px;
+  color: #1d3143;
+  font-size: 22px;
+}
+
+.space-settings__header p,
+.space-settings__item p {
+  margin: 0;
+  color: #657482;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.space-settings__close {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  color: #526574;
+  font-size: 26px;
+}
+
+.space-settings__scroll {
+  max-height: min(58dvh, 500px);
+  overflow-y: auto;
+  padding: 20px 26px;
+  perspective: 900px;
+  scrollbar-color: rgb(81 120 148 / 0.35) transparent;
+  scrollbar-width: thin;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 32px,
+    #000 calc(100% - 32px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 32px,
+    #000 calc(100% - 32px),
+    transparent 100%
+  );
+}
+
+.space-settings__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.space-settings__item {
+  padding: 16px 18px;
+  border: 1px solid rgb(64 99 124 / 0.14);
+  background: rgb(255 255 255 / 0.82);
+  box-shadow: 0 5px 14px rgb(35 55 73 / 0.07);
+  transform: perspective(900px) rotateX(-1deg) rotateY(-0.7deg);
+  transform-origin: center top;
+}
+
+.space-settings__item:nth-child(even) {
+  transform: perspective(900px) rotateX(1deg) rotateY(0.7deg);
+}
+
+.space-settings__item-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.space-settings__index {
+  color: #df8b43;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.space-settings__item-heading h3 {
+  margin: 0;
+  color: #2b4357;
+  font-size: 14px;
+}
+
+.space-settings__range-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  color: #75828c;
+  font-size: 11px;
+}
+
+.space-settings__range-label input {
+  min-width: 60px;
+  flex: 1;
+  accent-color: #347dce;
+}
+
+.space-settings__range-label output {
+  min-width: 38px;
+  color: #2d6494;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.space-settings__footer {
+  border-top: 1px solid rgb(55 82 104 / 0.14);
+  color: #778591;
+  font-size: 11px;
+}
+
+.space-settings__done {
+  min-width: 82px;
+  padding: 9px 16px;
+  background: #176bc0;
+  color: #fff;
+  font-size: 12px;
+}
+
+.space-settings__done:hover {
+  background: #0e559a;
+}
+
+@media (max-width: 540px) {
+  .space-settings__header,
+  .space-settings__footer {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .space-settings__scroll {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .space-settings__item {
+    padding: 13px;
+  }
 }
